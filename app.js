@@ -19,10 +19,21 @@ app.get('/helloworldjson', (req, res) => {
 // Stores into users
 app.post('/user', (req, res) => {
     let user = new Object();
-    user.username = req;
-    user.id = id;
+    console.log(req.body);
+    if(req.body === "")
+    {
+        res.status(400);
+        res.send();
+    }
+    else
+    {
+    //user.username = req.body.json();
+    //user.id = id;
     id++;
     users.push(user);
+    res.status(200);
+    res.send();
+    }
 })
 
 // Returns a json object of a user with the given ID
