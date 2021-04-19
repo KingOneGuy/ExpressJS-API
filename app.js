@@ -1,29 +1,52 @@
-const express = require('express') 
-const app = express() 
-const port = 3000 
+const express = require('express');
+const app = express();
+const port = 3000;
 
-let users = [];
- 
-app.get('/helloworld', (req, res) => { 
-    res.send('hello world') 
+let users = []; // Stores user json objects
+let id = 0; // Counts current id
+
+// Returns message "hello world"
+app.get('/helloworld', (req, res) => {
+    res.send('hello world');
 })
 
+// Returns json object containing "hello world"
 app.get('/helloworldjson', (req, res) => { 
-    res.send({"helloworldjson":"hello world"}) 
+    res.send({"helloworldjson":"hello world"});
 })
 
-app.post('/', (req, res) => {
-    res.send('Got a POST request')
+// Creates a new user with the given username and a unique ID
+// Stores into users
+app.post('/user', (req, res) => {
+    let user = new Object();
+    user.username = req;
+    user.id = id;
+    id++;
+    users.push(user);
 })
 
-app.put('/user', (req, res) => {
-    res.send('Got a PUT request at /user')
-})
+// Returns a json object of a user with the given ID
+app.get('/user', (req, res) => {
+    let user = null; // User to be returned
 
-app.delete('/user', (req, res) => {
-    res.send('Got a DELETE request at /user')
+    // Check matching id
+    if(users.length > 0){
+        users.forEach(element => {
+            if(element.id == res){
+                user = element;
+            }
+        })
+    }
+    
+    // Return
+    if(user != null)
+    {
+        res.send(user);
+    }else{
+        res.send("No user match");
+    }
 })
  
 app.listen(port, () => { 
-    console.log('Example app listening at http://localhost:' + port) 
+    console.log('Example app listening at http://localhost:' + port);
 })
