@@ -1,4 +1,5 @@
 const express = require('express');
+const bodyParser = require('body-parser');
 const app = express();
 const port = 3000;
 
@@ -17,10 +18,12 @@ app.get('/helloworldjson', (req, res) => {
 
 // Creates a new user with the given username and a unique ID
 // Stores into users
+app.use(bodyParser.urlencoded({ extended: true }))
+app.use(bodyParser.json());
 app.post('/user', (req, res) => {
-    let user = new Object();
+    let user = {};
     console.log(req.body);
-    if(req.body === "")
+    if(!req.body.name)
     {
         res.status(400);
         res.send();
@@ -28,7 +31,7 @@ app.post('/user', (req, res) => {
     else
     {
     //user.username = req.body.json();
-    //user.id = id;
+    //user.id = id; Setup your user now
     id++;
     users.push(user);
     res.status(200);
